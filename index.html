@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <div class="sidebar hidden">
+            <button id="new-chat-button">새 채팅</button>
+            <button id="settings-button">설정</button>
+        </div>
+
+        <div class="chat-container">
+            <div class="chat-header">
+                <div id="menu-icon">☰</div>
+                <h1>대전시 행사 챗봇</h1>
+            </div>
+
+            <!-- 채팅 메시지 표시되는 영역 -->
+            <div class="chat-messages" id="chat-messages">
+            </div>
+
+            <!-- 사용자 입력 영역 -->
+            <div class="chat-input">
+                <input type="text" id="user-input" placeholder="메시지를 입력해주세요.">
+                <button id="send-button">보내기</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
