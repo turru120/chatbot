@@ -143,23 +143,29 @@ body {
 }
 
 #image-preview-container {
-    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
     padding: 10px;
     border-top: 1px solid #eee;
     background-color: #f9f9f9;
 }
 
-#image-preview {
+.image-preview-wrapper {
+    position: relative;
+}
+
+.image-preview-wrapper img {
     max-height: 100px;
     border-radius: 8px;
     border: 1px solid #ddd;
 }
 
-#cancel-preview-button {
+.cancel-preview-button {
     position: absolute;
-    top: 0;
-    right: 0;
-    background: rgba(0,0,0,0.5);
+    top: 2px;
+    right: 2px;
+    background: rgba(0,0,0,0.6);
     color: white;
     border: none;
     border-radius: 50%;
@@ -174,7 +180,6 @@ body {
 #image-preview-container.hidden {
     display: none;
 }
-
 
 .message img {
     max-width: 100%;

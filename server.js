@@ -31,12 +31,12 @@ app.post('/chat', (req, res) => {
     res.json({ reply });
 });
 
-app.post('/upload', upload.single('image'), (req, res) => {
-    if (!req.file) {
-        return res.status(400).send('No file uploaded.');
+app.post('/upload', upload.array('images', 5), (req, res) => {
+    if (!req.files || req.files.length === 0) {
+        return res.status(400).send('No files uploaded.');
     }
-    const imageUrl = `http://localhost:${port}/uploads/${req.file.filename}`;
-    res.json({ reply: imageUrl });
+    const imageUrls = req.files.map(file => `http://localhost:${port}/uploads/${file.filename}`);
+    res.json({ reply: imageUrls });
 });
 
 app.listen(port, () => {
