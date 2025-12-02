@@ -1,40 +1,44 @@
-const http = require('http');
+const express = require('express');
+const multer = require('multer');
+const path = require('path');
+const cors = require('cors');
+const app = express();
+const port = 3000;
 
-const server = http.createServer((req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+app.use(cors());
+app.use(express.json());
+app.use(express.static(__dirname));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-    if (req.method === 'OPTIONS') {
-        res.writeHead(204);
-        res.end();
-        return;
-    }
-
-    if (req.url === '/chat' && req.method === 'POST') {
-        let body = '';
-        req.on('data', chunk => {
-            body += chunk.toString();
-        });
-        req.on('end', () => {
-            try {
-                const data = JSON.parse(body);
-                const message = data.message;
-                const reply = `You said: ${message}`;
-                res.writeHead(200, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ reply }));
-            } catch (error) {
-                res.writeHead(400, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ error: 'Invalid JSON' }));
-            }
-        });
-    } else {
-        res.writeHead(404, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ error: 'Not Found' }));
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/');
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + path.extname(file.originalname));
     }
 });
 
-const PORT = 3000;
-server.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+const upload = multer({ storage: storage });
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+app.post('/chat', (req, res) => {
+    const message = req.body.message;
+    const reply = `You said: ${message}`;
+    res.json({ reply });
+});
+
+app.post('/upload', upload.single('image'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).send('No file uploaded.');
+    }
+    const imageUrl = `http://localhost:${port}/uploads/${req.file.filename}`;
+    res.json({ reply: imageUrl });
+});
+
+app.listen(port, () => {
+    console.log(`Server running on http://localhost:${port}`);
 });

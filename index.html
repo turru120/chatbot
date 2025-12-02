@@ -23,8 +23,16 @@
             <div class="chat-messages" id="chat-messages">
             </div>
 
+            <!-- 이미지 미리보기 -->
+            <div id="image-preview-container" class="hidden">
+                <img id="image-preview" src="#" alt="Image preview" />
+                <button id="cancel-preview-button">&times;</button>
+            </div>
+
             <!-- 사용자 입력 영역 -->
             <div class="chat-input">
+                <input type="file" id="image-input" accept="image/*" style="display: none;">
+                <button id="upload-button">🖼️</button>
                 <input type="text" id="user-input" placeholder="메시지를 입력해주세요.">
                 <button id="send-button">보내기</button>
             </div>
