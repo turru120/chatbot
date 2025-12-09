@@ -32,11 +32,21 @@ app.post('/chat', (req, res) => {
 });
 
 app.post('/upload', upload.array('images', 5), (req, res) => {
+    const message = req.body.message || '';
+    
     if (!req.files || req.files.length === 0) {
-        return res.status(400).send('No files uploaded.');
+        if (!message) {
+            return res.status(400).send('No files or message uploaded.');
+        }
+        const reply = `You said: ${message}`;
+        return res.json({ reply, imageUrls: [] });
     }
     const imageUrls = req.files.map(file => `http://localhost:${port}/uploads/${file.filename}`);
-    res.json({ reply: imageUrls });
+    const reply = message 
+        ? `Received message: "${message}" and uploaded ${req.files.length} images.`
+        : `Uploaded ${req.files.length} images.`;
+        
+    res.json({ reply, imageUrls });
 });
 
 app.listen(port, () => {

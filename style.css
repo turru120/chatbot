@@ -188,3 +188,24 @@ body {
     border-radius: 8px;
     margin-top: 5px;
 }
+
+.message p {
+    margin: 0 0 5px 0;
+}
+
+.message p:last-child {
+    margin-bottom: 0;
+}
+
+.message-image-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 5px;
+    margin-top: 5px;
+}
+
+.message-image-container img {
+    max-width: 100%;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
